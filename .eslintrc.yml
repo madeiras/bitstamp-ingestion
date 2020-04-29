@@ -1,0 +1,30 @@
+env:
+  es6: true
+  jest: true
+  node: true
+
+extends:
+  - eslint:recommended
+  - plugin:prettier/recommended
+
+parserOptions:
+  ecmaVersion: 2019
+
+plugins:
+  - jest
+  - prettier
+  - sort-requires
+
+root: true
+
+rules:
+  no-undef: 0
+  jest/no-disabled-tests: 2
+  jest/no-focused-tests: 2
+  sort-requires/sort-requires: 2
+  prettier/prettier:
+    - error
+    - printWidth: 150
+      singleQuote: true
+      trailingComma: none
+    - usePrettierrc: false

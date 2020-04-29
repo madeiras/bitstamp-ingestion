@@ -1,0 +1,44 @@
+service: bitstamp-ingestion
+
+provider:
+  environment: 
+    AZURE_ACCESS_KEY: <AZURE_ACCESS_KEY>
+    AZURE_ACCOUNT: <AZURE_ACCOUNT>
+    AZURE_CONTAINER_NAME: <AZURE_CONTAINER_NAME>
+    AZURE_SSL: <AZURE_SSL>
+    BITSTAMP_ACCESS_KEY: <BITSTAMP_ACCESS_KEY>
+    BITSTAMP_ACCESS_SECRET: <BITSTAMP_ACCESS_SECRET>
+    BITSTAMP_ACCOUNT: <BITSTAMP_ACCOUNT>
+    BITSTAMP_OFFSET: '100'  
+    BITSTAMP_PAIR: 'btcusd'
+  name: azure
+  region: Central US
+  runtime: nodejs10.x
+  stage: dev
+
+plugins:
+  - serverless-azure-functions
+
+package:
+  exclude:
+    - .dockerignore
+    - .eslintrc.yml
+    - .gitignore
+    - .vscode/**
+    - config/local.js
+    - config/test.js
+    - coverage/**
+    - docker-compose.yml
+    - README.md
+    - test/**
+    - yarn.lock
+
+functions:
+  syncDocument:
+    events:
+      - timer:
+        x-azure-settings:
+          name: timerObject
+          schedule: 0 */5 * * * *
+    handler: src/handlers/sync-document-handler.run
+    
